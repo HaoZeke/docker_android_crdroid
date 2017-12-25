@@ -1,5 +1,8 @@
 # Use the development LTS [17.10 artful]
-FROM phusion/baseimage
+FROM phusion/baseimage:latest
+
+# Use baseimage-docker's init system [Phusion]
+CMD ["/sbin/my_init"]
 
 # Phusion SSH special
 RUN /usr/sbin/enable_insecure_key
@@ -14,6 +17,9 @@ RUN apt update && apt install -y bc bison build-essential curl flex g++-multilib
  libncurses5-dev libsdl1.2-dev libwxgtk2.8-dev libxml2 libxml2-utils lzop pngcrush schedtool \
  squashfs-tools xsltproc zip zlib1g-dev \
  python openjdk-8-jdk ccache sudo 
+
+# Clean up APT when done. [Phusion]
+RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Download Repo
 ADD https://commondatastorage.googleapis.com/git-repo-downloads/repo /usr/local/bin/
