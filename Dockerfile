@@ -1,5 +1,5 @@
-# Use the development LTS [17.10 artful]
-FROM ubuntu/artful
+# Use the development LTS [16.04 xenial]
+FROM ubuntu:latest
 
 # By Rohit Goswami
 LABEL maintainer="Rohit Goswami <rohit.1995@mail.ru>"
