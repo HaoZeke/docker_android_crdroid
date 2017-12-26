@@ -2,7 +2,7 @@
 FROM phusion/baseimage:latest
 
 # Use baseimage-docker's init system [Phusion]
-CMD ["/sbin/my_init"]
+CMD ["/sbin/my_init","--", "setuser", "build", "bash"]
 
 # Phusion SSH special
 RUN /usr/sbin/enable_insecure_key
@@ -12,26 +12,26 @@ LABEL maintainer="Rohit Goswami <rohit.1995@mail.ru>"
 LABEL name="crDroid"
 
 # Update apt and get build reqs [from https://forum.xda-developers.com/chef-central/android/how-to-build-lineageos-14-1-t3551484]
-RUN apt update && apt install -y bc bison build-essential curl flex g++-multilib gcc-multilib git gnupg \
+RUN sudo apt update && apt install -y bc bison build-essential curl flex g++-multilib gcc-multilib git gnupg \
  gperf imagemagick lib32ncurses5-dev lib32readline6-dev lib32z1-dev libesd0-dev liblz4-tool \
  libncurses5-dev libsdl1.2-dev libwxgtk3.0-dev libxml2 libxml2-utils lzop pngcrush schedtool \
  squashfs-tools xsltproc zip zlib1g-dev \
  python openjdk-8-jdk ccache sudo megatools 
 
 # Clean up APT when done. [Phusion]
-RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+RUN sudo apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Download Repo
-ADD https://commondatastorage.googleapis.com/git-repo-downloads/repo /usr/local/bin/
-RUN chmod 755 /usr/local/bin/*
+ADD sudo https://commondatastorage.googleapis.com/git-repo-downloads/repo /usr/local/bin/
+RUN sudo chmod 755 /usr/local/bin/*
 
 # Fix libfl.so.2.0.0 for uber toolchains
-RUN megadl 'https://mega.nz/#!FdFXkaQR!fGmtpzqveIlZMmqzkSst-htQJbqo33Z6ZYZZF_iHV_4'
-RUN mv libfl.so.2.0.0 /usr/lib/libfl.so.2.0.0
-RUN chmod 755 /usr/lib/libfl.so.2.0.0 
-RUN ln -s /usr/lib/libfl.so.2.0.0 /usr/lib/libfl.so --force
-RUN ln -s /usr/lib/libfl.so.2.0.0 /usr/lib/libfl.so.2 --force
-RUN ln -s /usr/lib/libfl.so.2.0.0 /usr/lib/x86_64-linux-gnu/libfl.so.2 --force
+RUN sudo megadl 'https://mega.nz/#!FdFXkaQR!fGmtpzqveIlZMmqzkSst-htQJbqo33Z6ZYZZF_iHV_4'
+RUN sudo mv libfl.so.2.0.0 /usr/lib/libfl.so.2.0.0
+RUN sudo chmod 755 /usr/lib/libfl.so.2.0.0 
+RUN sudo ln -s /usr/lib/libfl.so.2.0.0 /usr/lib/libfl.so --force
+RUN sudo ln -s /usr/lib/libfl.so.2.0.0 /usr/lib/libfl.so.2 --force
+RUN sudo ln -s /usr/lib/libfl.so.2.0.0 /usr/lib/x86_64-linux-gnu/libfl.so.2 --force
 
 
 # Switch to the new user by default and make ~/ the working dir
@@ -39,9 +39,7 @@ ENV USER build
 WORKDIR /home/${USER}/
 
 # Add the build user, update password to build and add to sudo group
-RUN useradd --create-home ${USER} && echo "${USER}:${USER}" | chpasswd && adduser ${USER} sudo
-
-CMD ["/sbin/my_init","--", "setuser", "build", "bash"]
+RUN sudo useradd --create-home ${USER} && echo "${USER}:${USER}" | chpasswd && adduser ${USER} sudo
 
 # Use ccache by default
 ENV USE_CCACHE 1
@@ -54,7 +52,7 @@ ENV CCACHE_DIR /home/build/.ccache
 RUN ccache -M 50G
 
 # Fix permissions on home
-RUN chown -R ${USER}:${USER} /home/${USER}
+RUN sudo chown -R ${USER}:${USER} /home/${USER}
 
 USER ${USER}
 
