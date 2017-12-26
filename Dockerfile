@@ -1,11 +1,5 @@
-# Use the Phusion [Ubuntu 16.04 LTS]
-FROM phusion/baseimage:latest
-
-# Use baseimage-docker's init system [Phusion]
-CMD ["/sbin/my_init","--", "setuser", "build", "bash"]
-
-# Phusion SSH special
-RUN /usr/sbin/enable_insecure_key
+# Use the the latest stable version [Ubuntu 16.04 LTS]
+FROM ubuntu:latest
 
 # By Rohit Goswami
 LABEL maintainer="Rohit Goswami <rohit.1995@mail.ru>"
@@ -19,19 +13,19 @@ RUN apt update && apt install -y bc bison build-essential curl flex g++-multilib
  python openjdk-8-jdk ccache sudo megatools 
 
 # Clean up APT when done. [Phusion]
-RUN sudo apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Download Repo
-ADD sudo https://commondatastorage.googleapis.com/git-repo-downloads/repo /usr/local/bin/
-RUN sudo chmod 755 /usr/local/bin/*
+ADD https://commondatastorage.googleapis.com/git-repo-downloads/repo /usr/local/bin/
+RUN chmod 755 /usr/local/bin/*
 
 # Fix libfl.so.2.0.0 for uber toolchains
-RUN sudo megadl 'https://mega.nz/#!FdFXkaQR!fGmtpzqveIlZMmqzkSst-htQJbqo33Z6ZYZZF_iHV_4'
-RUN sudo mv libfl.so.2.0.0 /usr/lib/libfl.so.2.0.0
-RUN sudo chmod 755 /usr/lib/libfl.so.2.0.0 
-RUN sudo ln -s /usr/lib/libfl.so.2.0.0 /usr/lib/libfl.so --force
-RUN sudo ln -s /usr/lib/libfl.so.2.0.0 /usr/lib/libfl.so.2 --force
-RUN sudo ln -s /usr/lib/libfl.so.2.0.0 /usr/lib/x86_64-linux-gnu/libfl.so.2 --force
+RUN megadl 'https://mega.nz/#!FdFXkaQR!fGmtpzqveIlZMmqzkSst-htQJbqo33Z6ZYZZF_iHV_4'
+RUN mv libfl.so.2.0.0 /usr/lib/libfl.so.2.0.0
+RUN chmod 755 /usr/lib/libfl.so.2.0.0 
+RUN ln -s /usr/lib/libfl.so.2.0.0 /usr/lib/libfl.so --force
+RUN ln -s /usr/lib/libfl.so.2.0.0 /usr/lib/libfl.so.2 --force
+RUN ln -s /usr/lib/libfl.so.2.0.0 /usr/lib/x86_64-linux-gnu/libfl.so.2 --force
 
 
 # Switch to the new user by default and make ~/ the working dir
@@ -39,7 +33,7 @@ ENV USER build
 WORKDIR /home/${USER}/
 
 # Add the build user, update password to build and add to sudo group
-RUN sudo useradd --create-home ${USER} && echo "${USER}:${USER}" | chpasswd && adduser ${USER} sudo
+RUN useradd --create-home ${USER} && echo "${USER}:${USER}" | chpasswd && adduser ${USER} sudo
 
 # Use ccache by default
 ENV USE_CCACHE 1
