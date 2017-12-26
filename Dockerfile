@@ -12,7 +12,7 @@ LABEL maintainer="Rohit Goswami <rohit.1995@mail.ru>"
 LABEL name="crDroid"
 
 # Update apt and get build reqs [from https://forum.xda-developers.com/chef-central/android/how-to-build-lineageos-14-1-t3551484]
-RUN sudo apt update && apt install -y bc bison build-essential curl flex g++-multilib gcc-multilib git gnupg \
+RUN apt update && apt install -y bc bison build-essential curl flex g++-multilib gcc-multilib git gnupg \
  gperf imagemagick lib32ncurses5-dev lib32readline6-dev lib32z1-dev libesd0-dev liblz4-tool \
  libncurses5-dev libsdl1.2-dev libwxgtk3.0-dev libxml2 libxml2-utils lzop pngcrush schedtool \
  squashfs-tools xsltproc zip zlib1g-dev \
