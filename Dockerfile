@@ -35,8 +35,12 @@ WORKDIR /home/${USER}/
 # Add the build user, update password to build and add to sudo group
 RUN useradd --create-home ${USER} && echo "${USER}:${USER}" | chpasswd && adduser ${USER} sudo
 
-# Use ccache by default
-ENV USE_CCACHE 1
+ENV \
+# ccache specifics [https://github.com/stucki/docker-lineageos]
+    CCACHE_SIZE=50G \
+    CCACHE_DIR=$HOME/.ccache \
+    USE_CCACHE=1 \
+    CCACHE_COMPRESS=1
 
 # Fix for Jack
 ENV JACK_SERVER_VM_ARGUMENTS="-Dfile.encoding=UTF-8 -XX:+TieredCompilation -Xmx4096m"
