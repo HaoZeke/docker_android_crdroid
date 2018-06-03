@@ -1,5 +1,5 @@
-# Use the the latest stable version [Ubuntu 16.04 LTS]
-FROM ubuntu:latest
+# Use the the latest stable version [Ubuntu 16.04 LTS] [Frozen until later]
+FROM ubuntu:xenial
 
 # By Rohit Goswami
 LABEL maintainer="Rohit Goswami <rohit.1995@mail.ru>"
