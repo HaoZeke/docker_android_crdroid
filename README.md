@@ -3,7 +3,7 @@
 
 Meant for compiling finicky android systems with an archlinux box.
 
-Works as a self contained setup for crDroid.
+Works as a self contained setup for [crDroid](https://github.com/crdroidandroid).
 
 ## Usage
 
