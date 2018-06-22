@@ -20,12 +20,12 @@ ADD https://commondatastorage.googleapis.com/git-repo-downloads/repo /usr/local/
 RUN chmod 755 /usr/local/bin/*
 
 # Fix libfl.so.2.0.0 for uber toolchains
-RUN megadl 'https://mega.nz/#!FdFXkaQR!fGmtpzqveIlZMmqzkSst-htQJbqo33Z6ZYZZF_iHV_4'
-RUN mv libfl.so.2.0.0 /usr/lib/libfl.so.2.0.0
-RUN chmod 755 /usr/lib/libfl.so.2.0.0 
-RUN ln -s /usr/lib/libfl.so.2.0.0 /usr/lib/libfl.so --force
-RUN ln -s /usr/lib/libfl.so.2.0.0 /usr/lib/libfl.so.2 --force
-RUN ln -s /usr/lib/libfl.so.2.0.0 /usr/lib/x86_64-linux-gnu/libfl.so.2 --force
+RUN megadl 'https://mega.nz/#!FdFXkaQR!fGmtpzqveIlZMmqzkSst-htQJbqo33Z6ZYZZF_iHV_4' && \
+mv libfl.so.2.0.0 /usr/lib/libfl.so.2.0.0 && \
+chmod 755 /usr/lib/libfl.so.2.0.0 && \
+ln -s /usr/lib/libfl.so.2.0.0 /usr/lib/libfl.so --force && \
+ln -s /usr/lib/libfl.so.2.0.0 /usr/lib/libfl.so.2 --force && \
+ln -s /usr/lib/libfl.so.2.0.0 /usr/lib/x86_64-linux-gnu/libfl.so.2 --force
 
 
 # Switch to the new user by default and make ~/ the working dir
