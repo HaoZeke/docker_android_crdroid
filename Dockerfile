@@ -10,10 +10,11 @@ RUN apt update && apt install -y bc bison build-essential curl flex g++-multilib
  gperf imagemagick lib32ncurses5-dev lib32readline6-dev lib32z1-dev libesd0-dev liblz4-tool \
  libncurses5-dev libsdl1.2-dev libwxgtk3.0-dev libxml2 libxml2-utils lzop pngcrush schedtool \
  squashfs-tools xsltproc zip zlib1g-dev \
- python openjdk-8-jdk ccache sudo megatools gcc-4.9 libstdc++6
+ python openjdk-8-jdk ccache sudo megatools gcc-4.9 libstdc++6 && \
+ apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Clean up APT when done. [Phusion]
-RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+# Actually this is added to the layer where the files are downloaded..
 
 # Download Repo
 ADD https://commondatastorage.googleapis.com/git-repo-downloads/repo /usr/local/bin/
