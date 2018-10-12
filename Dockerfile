@@ -41,10 +41,9 @@ ENV \
     CCACHE_SIZE=50G \
     CCACHE_DIR=$HOME/.ccache \
     USE_CCACHE=1 \
-    CCACHE_COMPRESS=1
-
+    CCACHE_COMPRESS=1 \
 # Fix for Jack
-ENV JACK_SERVER_VM_ARGUMENTS="-Dfile.encoding=UTF-8 -XX:+TieredCompilation -Xmx4096m"
+    JACK_SERVER_VM_ARGUMENTS="-Dfile.encoding=UTF-8 -XX:+TieredCompilation -Xmx4096m"
 
 # Use the shared volume for ccache storage
 ENV CCACHE_DIR /home/build/.ccache
