@@ -55,4 +55,7 @@ RUN sudo chown -R ${USER}:${USER} /home/${USER}
 USER ${USER}
 
 # Setup dummy git config
-RUN git config --global user.name "${USER}" && git config --global user.email "${USER}@localhost"
+RUN git config --global user.name "${USER}" && \
+    git config --global user.email "${USER}@localhost" \
+# Activate direnv
+    echo 'eval "$(direnv hook bash)"' >> ~/.bashrc
